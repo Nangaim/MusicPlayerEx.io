@@ -9,6 +9,11 @@ const progressContainer = document.querySelector('.progress-container')
 const title = document.querySelector('#title')
 const cover = document.querySelector('#cover')
 
+const rangeInputs = document.querySelectorAll('input[type="range"]')
+const numberInput = document.querySelector('#volume-show')
+const volume = document.querySelector('#volume_icon')
+
+
 // Song titles
 const songs = ['Sabor','Dark Red','Koruna & Lime', 'See You Sweat','baby bull','tropes - forever','You Outside my window','Wassup - Paeka','Made From Sand','Molina - Hey Kids']
 
@@ -30,9 +35,24 @@ function playSong(){
     musicContainer.classList.add('play')
     playBtn.querySelector('i.fas').classList.remove('fa-play')
     playBtn.querySelector('i.fas').classList.add('fa-pause')
-
+    
     audio.play()
 }
+
+function muteSound(){
+    volume.classList.add('muted')
+    volume.classList.remove('fa-volume-up')
+    volume.classList.add('fa-volume-mute')
+    audio.volume = 0
+}
+
+function demuteSound(){
+    volume.classList.remove('muted')
+    volume.classList.remove('fa-volume-mute')
+    volume.classList.add('fa-volume-up')
+    audio.volume = 0.9
+}
+
 
 function pauseSong(){
     musicContainer.classList.remove('play')
@@ -79,10 +99,29 @@ function setProgress(e){
     audio.currentTime = (clickX / width) * duration
 }
 
+
+function handleInputChange(e) {
+  let target = e.target
+  if (e.target.type !== 'range') {
+    target = document.getElementById('range')
+  } 
+  const val = target.value
+//   console.log(min,max,val)
+//   console.log((val - min) * 100 / (max - min)
+  target.style.backgroundSize = val + '% 100%'
+  numberInput.innerText = val
+
+}
+
+function volumeChange(e){
+    let target = e.target
+    const val = target.value
+    audio.volume = val / 100
+}
+
 // Event listeners
 playBtn.addEventListener('click', () => {
     const isPlaying = musicContainer.classList.contains('play')
-
     if(isPlaying){
         pauseSong()
     }else{
@@ -96,3 +135,25 @@ nextBtn.addEventListener('click', nextSong)
 audio.addEventListener('timeupdate', updateProgress)
 progressContainer.addEventListener('click', setProgress)
 audio.addEventListener('ended', nextSong)
+
+rangeInputs.forEach(input => {
+  input.addEventListener('input', handleInputChange)
+})
+
+// numberInput.addEventListener('input', handleInputChange)
+
+volume.addEventListener('click', () => {
+
+    const isMuted = volume.classList.contains('muted')
+
+
+    if(isMuted){
+        demuteSound()
+    }else{
+        muteSound()
+    }
+})
+
+rangeInputs.forEach(input => {
+  input.addEventListener('input', volumeChange)
+})
