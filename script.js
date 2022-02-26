@@ -15,7 +15,7 @@ const volume = document.querySelector('#volume_icon')
 
 
 // Song titles
-const songs = ['Sabor','Dark Red','Koruna & Lime', 'See You Sweat','baby bull','tropes - forever','You Outside my window','Wassup - Paeka','Made From Sand','Molina - Hey Kids']
+const songs = ['Sabor','Dark Red','Koruna & Lime', 'See You Sweat','baby bull','tropes - forever','You outside my window','Wassup - Paeka','Made From Sand','Molina - Hey Kids']
 
 // Keep track of songs
 let songIndex = 0
@@ -27,8 +27,8 @@ loadSong(songs[songIndex])
 // Update song details
 function loadSong(song){
     title.innerText = song
-    audio.src = `music/${song}.mp3`
-    cover.src = `images/${song}.jpg`
+    audio.src = `./music/${song}.mp3`
+    cover.src = `./images/${song}.jpg`
 }
 
 function playSong(){
